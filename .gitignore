@@ -1,0 +1,7 @@
+.terraform
+terraform.tfstate*
+*.code-workspace
+aws-*
+kubectl
+kubectl.*
+.vscode
