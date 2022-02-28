@@ -1,0 +1,21 @@
+# Requirements for using community.k8s
+# python >= 2.7 & openshift >= 0.6 & PyYAML >= 3.11 must be installed locally
+---
+- name: deploy app in new namespace
+  hosts: localhost
+  tasks:
+    - name: Create a k8s namespace
+      k8s:
+        name: my-app
+        api_version: v1
+        kind: Namespace
+        state: present
+        # kubeconfig: ~/.kube/config  # configure ansible to know which cluster to connect.
+        # we can export this valuse as a var >> export K8S_AUTH_KUBECONFIG=~/.kube/config so that we don't have to use it in every task
+    # deploying nginx in my-app namespace
+    - name: deploy nginx app
+      k8s:
+        src:  ~/deploying-k8s-using-terraform/deploy-to-k8s/simple-k8s-files/nginx-config.yml
+        state: present
+        # kubeconfig: ~/.kube/config
+        namespace: my-app   # override creating on the default ns
